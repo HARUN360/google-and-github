@@ -2,16 +2,23 @@
 import { NavLink } from "react-router-dom";
 import { AuthContex } from "./AuthProvider";
 import { useContext } from "react";
+import auth from "../layout/firebase.config";
 
 const Nav = () => {
-  const {user} = useContext(AuthContex);
+  const {user,logOut} = useContext(AuthContex);
   console.log('suer',user);
     const NavLinks = <>
     <li><NavLink to='/'>Home</NavLink></li>
     <li><NavLink to='/login'>Login</NavLink></li>
     <li><NavLink to='/register'>Register</NavLink></li>
+  
+       <li><NavLink to='/about'>About</NavLink></li>
+    
    
     </>
+    const handleLogout = () => {
+      logOut(auth)
+    }
     return (
 <div className="navbar bg-base-100">
   <div className="navbar-start">
@@ -32,7 +39,7 @@ const Nav = () => {
   </div>
   <div className="navbar-end">
     {
-      user && <span>{user.email}</span>
+      user ? <span>{user.email} <button onClick={handleLogout}>Logout</button> </span> : ""
     }
   </div>
 </div>

@@ -1,9 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContex } from "../componets/AuthProvider";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 const Login = () => {
-  const {loginUser, googleLogin,facebookLogin ,SetUser} = useContext(AuthContex)
+  const {loginUser, googleLogin,facebookLogin ,SetUser, user} = useContext(AuthContex);
+  const locattion = useLocation()
+  const navigate = useNavigate()
+  console.log(locattion);
   const handleLogin = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -21,6 +25,11 @@ const Login = () => {
     .then(result => SetUser(result.user))
     .catch(error => console.error(error))
   }
+  useEffect(()=> {
+    if(user){
+      navigate(locattion.state)
+    }
+  },[user])
   return (
     <div className="w-[40%] mx-auto min-w-[500px] bg-gray-400 p-10 rounded-xl">
        <form onSubmit={handleLogin}>
